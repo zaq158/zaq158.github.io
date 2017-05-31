@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="icone/font_h8cvxlcucn154s4i/iconfont.css">
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    .table{
+        width: 700px;
+        height: 600px;
+        margin: 10px auto 0;
+        position: relative;
+    }
+    .table .puke{
+        width: 90px;
+        height: 120px;
+        position: absolute;
+        top:0;
+        background-size: 90px 120px;
+    }
+    .active{
+        border:2px solid #6470bb;
+        box-sizing: border-box;
+        transform: translateY(-20px);
+
+    }
+    .lBtn,.rBtn{
+        width: 60px;
+        height: 30px;
+        background-color: #5F504D;
+        position: absolute;
+        top:470px;
+        left: 300px;
+        font-size: 20px;
+        line-height: 30px;
+        text-align: center;
+        color: #ffffff;
+    }
+    .rBtn{
+        top:520px;
+    }
+</style>
+<body>
+<div class="table">
+    <div class="lBtn"><i class="iconfont icon-xiaoyuhao"></i></div>
+    <div class="rBtn"><i class="iconfont icon-dayuhao"></i></div>
+</div>
+</body>
+</html>
+<script src="../jquery-3.2.1.js"></script>
+<script>
+    $(function () {
+        let puke=[];
+        let panduan={};
+        let color=['h','d','s','c'];
+        let arr=[];
+        let lBtn=$('.lBtn');
+        let rBtn=$('.rBtn');
+        for(let i=0;i<52;i++){
+            let huase=color[Math.floor(Math.random()*4)];
+            let shuzi=Math.floor(Math.random()*13+1);
+            while (panduan[huase+'_'+shuzi]){
+                 huase=color[Math.floor(Math.random()*4)];
+                 shuzi=Math.floor(Math.random()*13+1);
+            }
+            panduan[huase+'_'+shuzi]=true;
+            puke.push({huase,shuzi});
+        }
+        let index=0;
+        for(let i=0;i<7;i++){
+            for(let j=0;j<=i;j++){
+                let items=puke[index];
+                index++;
+                let src='url(img/'+items.huase+items.shuzi+'.png)';
+                $('<div>').addClass('puke')
+                    .data('num',items.shuzi)
+                    .css('backgroundImage',src)
+                    .prop('id',`${i}_${j}`)
+                    .delay(20*index)
+                    .animate({left:300-50*i+100*j,top:50*i})
+                    .appendTo('.table');
+            }
+        }
+
+        for(;index<puke.length;index++){
+            let items=puke[index];
+            let src='url(img/'+items.huase+items.shuzi+'.png)';
+            $('<div>').addClass('puke zuo')
+                .data('num',items.shuzi)
+                .css('backgroundImage',src)
+                .delay(20*index)
+                .animate({left:100,top:450})
+                .appendTo('.table');
+        }
+
+        let first=null;
+        $('.puke').click(function () {
+            let coder=$(this).prop('id').split('_');
+            console.log(coder);
+            let ele=$(`#${parseInt(coder[0])+1}_${parseInt(coder[1])+1}`);
+            let ele1=$(`#${parseInt(coder[0])+1}_${parseInt(coder[1])}`);
+            if(ele.length==1 || ele1.length==1){
+                return;
+            }
+            $(this).toggleClass('active');
+
+            if(!first){
+                first=this;
+                console.log($(first).data('num'))
+                if($(first).data('num')==13){
+                    $('.active').animate({left:600,top:0},function () {
+                        $(this).remove();
+                    })
+                }
+            }else {
+                let num=$(first).data('num')+$(this).data('num');
+                if(num==13){
+                    $('.active').animate({left:600,top:0},function () {
+                        $(this).remove();
+                    })
+                }else {
+                    $('.active').removeClass('active');
+                }
+                first=null;
+            }
+
+
+
+        })
+        let z=0;
+        rBtn.click(function () {
+            z++;
+           $('.zuo:last')
+                    .css('zIndex',z)
+                    .removeClass('zuo')
+                    .addClass('you')
+                    .animate({left:'+=400'})
+
+
+        })
+
+        lBtn.click(function () {
+            let you=$('.you');
+            for(let i=you.length;i>=0;i--){
+                $(you[i]).delay(300*i)
+                    .animate({left:'-=400'},function () {
+                        $(this).css('zIndex',0)
+                    })
+                    .removeClass('you')
+                    .addClass('zuo')
+            }
+        })
+    })
+</script>

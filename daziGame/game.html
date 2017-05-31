@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>打字游戏</title>
+    <link rel="stylesheet" href="css/game.css"/>
+    <script src="js/game.js"></script>
+</head>
+<body> 
+        <div class="score">
+            <img src="img/star.jpg" alt=""/>
+            <span>0</span>
+        </div>
+        <div class="pass">
+            <img src="img/jiangbei.jpg" alt=""/>
+            <span>1</span>
+        </div>
+        <div class="life">
+            <img src="img/xin.jpg" alt=""/>
+            <span>
+                <span class="sm"></span>
+            </span>
+        </div>   
+</body>
+</html>
+<script>
+    var game=new Game();
+    game.start();
+</script>
