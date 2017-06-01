@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Created by Administrator on 2017/5/28.
  */
 $(function () {
@@ -122,5 +122,5 @@ $(function () {
     setInterval(function () {
         $('#fullpage').fullpage.moveSlideRight(true)
 
-    },3000)
+    },4000)
 })
